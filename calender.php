@@ -43,19 +43,12 @@
             $calendar .= '<div class="day-number">' . $list_day . '</div>';
 
             /** QUERY THE DATABASE FOR AN ENTRY FOR THIS DAY !!  IF MATCHES FOUND, PRINT THEM !! **/
-            $date = $year . '-' . $month . '-' . $list_day;
             $query = "SELECT input FROM test WHERE date = :date";
             $stmt = $dbh->prepare($query);
-            $stmt->execute(array('date'=> $date));
+            $stmt->execute(array('date'=> $year . '-' . $month . '-' . $list_day));
             $count = $stmt->rowCount();
 
-            if($count == 1)
-            {
-                $results = $stmt->fetch();
-                $response = $results['input'];
-                $calendar .= str_repeat('<p>' . $response . '</p>', 1);
-            }
-            else
+            if($count > 0)
             {
                 $results = $stmt->fetchAll();
                 foreach($results as $result)
@@ -63,6 +56,7 @@
                     $response = $result['input'];
                     $calendar .= str_repeat('<span style="margin-top: 0">' . $response . '</span> <br>', 1);
                 }
+                $date = $year . '-' . $month . '-' . $list_day;
             }
             $calendar .= '</td>';
 
@@ -101,8 +95,8 @@
 
     $month = date('m', strtotime('0 month'));
     $year = date('Y');
-    $monthName = date('F', mktime(0, 0, 0, $month, 10)); // March
-    echo '<h2>' . $monthName . ' ' . $year . '</h2>';
+    $monthName = date('F', mktime(0, 0, 0, $month, 10));
+    echo '<h2 style="text-align: center">' . $monthName . ' ' . $year . '</h2>';
     $results = draw_calendar($month,$year, $dbh);
     echo $results[0];
 ?>
@@ -128,26 +122,29 @@
 
     <body>
         <form method="post">
-            <table class="table" id="medicine" align="center">
-                <tr>
+            <table class="table" id="medicine" align="center" style="margin-top: 10px; margin-left: 15px">
+                <tr >
                     <th>Medication Name</th>
                     <th>Time Taken</th>
                 </tr>
-                <tr>
                     <?php
-                        $query = "SELECT * FROM test WHERE date = $results[1]";
+                        $query = "SELECT * FROM test WHERE date = :date";
                         $stmt = $dbh->prepare($query);
-                        $stmt->execute();
-                        $results = $stmt->fetchAll();
+                        $stmt->execute(array('date'=>$results[1]));
+                        $inputs = $stmt->fetchAll();
 
-                        foreach($results as $result)
+                        foreach($inputs as $result)
                         {
+                            $time = new DateTime($result['time']);
+                            echo '<tr>';
                             echo '<td>' . $result['input'] . '</td>';
-                            echo '<td>' . $result['time'] . '</td>';
+                            echo '<td>' . $time->format('h:i a') . '</td>';
+                            echo '<tr>';
                         }
                     ?>
-                    <td><input type="text" name="medicine"></td>
-                    <td><input type="time" name="time"></td>
+                <tr>
+                    <td><input type="text" name="medicine" required></td>
+                    <td><input type="time" name="time" required></td>
                     <td><input type="submit" name="add" value="+"></td>
                 </tr>
             </table>
