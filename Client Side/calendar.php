@@ -71,7 +71,7 @@
                 }
                 $date = $year . '-' . $month . '-' . $list_day;
             }
-            
+
             $calendar .= '</td>';
 
             if ($running_day == 6)
@@ -119,11 +119,11 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Calender</title>
+        <title>Calendar</title>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-        <link href="css/calendar.css" rel="stylesheet">
+        <link href="../Css/calendar.css" rel="stylesheet">
 
         <style>
             #medicine, #activity
