@@ -28,23 +28,5 @@
                 $("nav").toggleClass("open");
             });
         </script>
-
-        <div style="width: 90%; float: right; margin-top: 50px;">
-            <div style="width: 22.5%; float: left; background-color: red">
-                <span style="color: white">Something</span>
-            </div>
-
-            <div style="width: 22.5%; float: left; background-color: black">
-                <span style="color: white">Something</span>
-            </div>
-
-            <div style="width: 22.5%; float: left; background-color: red">
-                <span style="color: white">Something</span>
-            </div>
-
-            <div style="width: 22.5%; float: left; background-color: black">
-                <span style="color: white">Something</span>
-            </div>
-        </div>
     </body>
 </html>
